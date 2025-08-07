@@ -1,0 +1,7 @@
+C:/dev/rainboy/build/CMakeFiles/rainboy.dir
+C:/dev/rainboy/build/CMakeFiles/ALL_BUILD.dir
+C:/dev/rainboy/build/CMakeFiles/ZERO_CHECK.dir
+C:/dev/rainboy/build/vendored/SDL/CMakeFiles/SDL3-shared.dir
+C:/dev/rainboy/build/vendored/SDL/CMakeFiles/SDL3_test.dir
+C:/dev/rainboy/build/vendored/SDL/CMakeFiles/SDL_uclibc.dir
+C:/dev/rainboy/build/vendored/SDL/CMakeFiles/ALL_BUILD.dir

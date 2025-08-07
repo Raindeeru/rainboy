@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/dev/rainboy/build/cmake_install.cmake",
+		"C:/dev/rainboy/build/vendored/SDL/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -17,6 +17,14 @@ endif()
 # Create your game executable target as usual
 add_executable(rainboy
     src/main.cpp
+
+    src/gbapp/app.cpp
+    src/gbapp/render.cpp
+
+    src/gbcore/clock.cpp
+    src/gbcore/cpu.cpp
+    src/gbcore/disassembler.cpp
+    src/gbcore/ram.cpp
 )
 
 # Link to the actual SDL3 library.
