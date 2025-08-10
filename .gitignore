@@ -1,3 +1,5 @@
 convert/
 clangd-build/
 build/
+opcode-helper/venv/
+opcode-helper/__pycache__/
