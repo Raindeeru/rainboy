@@ -90,7 +90,7 @@
       <AdditionalIncludeDirectories>C:\dev\rainboy\build\vendored\SDL\include-config-debug\build_config;C:\dev\rainboy\build\vendored\SDL\include-revision;C:\dev\rainboy\vendored\SDL\include;C:\dev\rainboy\vendored\SDL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/rainboy/vendored/SDL/src/video/khronos" /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>

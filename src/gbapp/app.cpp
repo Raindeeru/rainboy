@@ -5,12 +5,15 @@
 #include "SDL3/SDL_render.h"
 #include "SDL3/SDL_video.h"
 #include "render.h"
+#include <cstdint>
 #include <cstdio>
 #include <iostream>
+#include <memory>
+#include "../gbcore/common.h"
 
 #define CPS 69905 //Cycles Per Frame, if 60 FPS
-#define SCREEN_WIDTH 100
-#define SCREEN_HEIGHT 100
+#define SCREEN_WIDTH 160 * 5
+#define SCREEN_HEIGHT 144 * 5
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -33,10 +36,9 @@ bool Init(){
         std::cout << "Could Not Initialize Window or Renderer:" << SDL_GetError() <<"\n";
         return false;
     }
-
-
-    bool running = true;
-    std::printf("Initialized RainBoy!");
+    
+    running = true;
+    std::printf("Initialized RainBoy!\n");
     return true;
 }
 
@@ -67,12 +69,12 @@ void End(){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-    std::printf("Ended RainBoy!");
+    std::printf("Ended RainBoy!\n");
 }
 
 void GameBoyApp::Start(){
     if(!Init()){
-        std::printf("Could Not Properly Initialize RainBoy!");
+        std::printf("Could Not Properly Initialize RainBoy!\n");
         return; 
     }
 

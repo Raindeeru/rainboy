@@ -6,14 +6,37 @@
 #define FLAG_H 5
 #define FLAG_C 4
 
+//8 Bit Register Macros
+#define A 0
+#define F 1
+#define B 2
+#define C 3
+#define D 4
+#define E 5
+#define H 6
+#define L 7
+
+//16 Bit Register Macros
+#define AF 0
+#define BC 1
+#define DE 2
+#define HL 3
+
+
 namespace CPU {
-    extern BYTE registers[8];
-    extern WORD pc;
-    extern WORD sp;
+    union Registers{
+        BYTE byte[8];
+        WORD word[4];
+    };
 
-    extern WORD ir;
-    extern WORD ie;
+    class DMG{
+        public:
+            WORD pc{};
+            Registers regs{};
+            WORD sp{};
+            BYTE memory[0x10000];
 
-    BYTE get_register(BYTE reg);
-    WORD get_register_pair(BYTE reg);
+            BYTE get_register(BYTE reg);
+            WORD get_register_pair(BYTE reg);
+    };
 }
