@@ -22,6 +22,9 @@
 #define DE 2
 #define HL 3
 
+#define PC 0
+#define SP 1
+
 
 namespace CPU {
     union Registers{
@@ -31,9 +34,8 @@ namespace CPU {
 
     class DMG{
         public:
-            WORD pc{};
             Registers regs{};
-            WORD sp{};
+            WORD pc_sp[2]{};
             BYTE memory[0x10000];
 
             BYTE get_register(BYTE reg);

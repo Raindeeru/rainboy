@@ -94,7 +94,7 @@ def translate_instruction_to_function(ins:str):
         return f"load_from_register_hl({reg1})"
 
     # LD_HL_n =
-    if ins == "LD H,u8":
+    if ins == "LD (HL),u8":
         return "load_hl_immediate()"
 
     # LDA_BC =
@@ -157,7 +157,7 @@ def translate_instruction_to_function(ins:str):
     match = re.fullmatch(LDrr_nn, ins)
     if match:
         reg1 = match.group(1)
-        return f"load_from_register_immediate({reg1})"
+        return f"load_register_immediate({reg1})"
 
     # LD_nn_SP =
     if ins == "LD (u16),SP":
@@ -173,7 +173,7 @@ def translate_instruction_to_function(ins:str):
         reg1 = match.group(1)
         return f"push({reg1})"
 
-    POPrr = r"^PUSH ([A-Z][A-Z])"
+    POPrr = r"^POP ([A-Z][A-Z])"
     match = re.fullmatch(POPrr, ins)
     if match:
         reg1 = match.group(1)
@@ -373,45 +373,205 @@ def translate_instruction_to_function(ins:str):
     if ins == "RRA":
         return "rotate_right_accumulator()"
 
-    # RLCr =
+    RLCr = r"^RLC ([ABCDEFHL])"
+    match = re.fullmatch(RLCr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"rotate_left_circular_register({reg1})"
+
     # RLC_HL =
-    # RRCr =
+    if ins == "RLC (HL)":
+        return  "rotate_left_circular_hl()"
+
+    RRCr = r"^RRC ([ABCDEFHL])"
+    match = re.fullmatch(RRCr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"rotate_right_circular_register({reg1})"
+
     # RRC_HL =
-    # RLr =
+    if ins == "RRC (HL)":
+        return  "rotate_right_circular_hl()"
+
+    RLr = r"^RL ([ABCDEFHL])"
+    match = re.fullmatch(RLr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"rotate_left_register({reg1})"
+
     # RL_HL =
-    # RRr =
+    if ins == "RL (HL)":
+        return  "rotate_left_hl()"
+
+    RRr = r"^RR ([ABCDEFHL])"
+    match = re.fullmatch(RRr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"rotate_right_register({reg1})"
+
     # RR_HL =
-    # SLAr =
+    if ins == "RR (HL)":
+        return  "rotate_right_hl()"
+
+    SLAr = r"^SLA ([ABCDEFHL])"
+    match = re.fullmatch(SLAr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"shift_left_register({reg1})"
+
     # SLA_HL =
-    # SRAr =
+    if ins == "SLA (HL)":
+        return  "shift_left_hl()"
+
+    SRAr = r"^SRA ([ABCDEFHL])"
+    match = re.fullmatch(SRAr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"shift_right_register({reg1})"
+
     # SRA_HL =
-    # SWAPr =
+    if ins == "SRA (HL)":
+        return  "shift_right_hl()"
+
+    SWAPr = r"^SWAP ([ABCDEFHL])"
+    match = re.fullmatch(SWAPr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"swap_nibbles_register({reg1})"
+
     # SWAP_HL =
+    if ins == "SWAP (HL)":
+        return  "swap_nibbles_hl()"
+
     # SRLr =
     # SRL_HL =
-    # BITb_r =
+    SRLr = r"^SRL ([ABCDEFHL])"
+    match = re.fullmatch(SRLr, ins)
+    if match:
+        reg1 = match.group(1)
+        return f"shift_right_logical_register({reg1})"
+
+    # SRL_HL =
+    if ins == "SRL (HL)":
+        return  "shift_right_logical_hl()"
+
+    BITbr = r"^BIT ([0-7]),([ABCDEFHL])"
+    match = re.fullmatch(BITbr, ins)
+    if match:
+        reg1 = match.group(2)
+        bit = match.group(1)
+        return f"test_bit_register({bit},{reg1})"
+
     # BITb_HL =
-    # RESb_r =
+    BITb_HL = r"^BIT ([0-7]),\(HL\)"
+    match = re.fullmatch(BITb_HL, ins)
+    if match:
+        bit = match.group(1)
+        return f"test_bit_hl({bit})"
+
+    RESbr = r"^RES ([0-7]),([ABCDEFHL])"
+    match = re.fullmatch(RESbr, ins)
+    if match:
+        reg1 = match.group(2)
+        bit = match.group(1)
+        return f"reset_bit_register({bit},{reg1})"
+
     # RESb_HL =
-    # SETb_r =
+    RESb_HL = r"^RES ([0-7]),\(HL\)"
+    match = re.fullmatch(RESb_HL, ins)
+    if match:
+        bit = match.group(1)
+        return f"reset_bit_hl({bit})"
+
+    SETbr = r"^SET ([0-7]),([ABCDEFHL])"
+    match = re.fullmatch(SETbr, ins)
+    if match:
+        reg1 = match.group(2)
+        bit = match.group(1)
+        return f"set_bit_register({bit},{reg1})"
+
     # SETb_HL =
+    SETb_HL = r"^SET ([0-7]),\(HL\)"
+    match = re.fullmatch(SETb_HL, ins)
+    if match:
+        bit = match.group(1)
+        return f"set_bit_hl({bit})"
 
     # JPnn =
+    if ins == "JP u16":
+        return "jump()"
+
     # JPHL =
-    # JPcc_nn =
+    if ins == "JP HL":
+        return "jump_hl()"
+
+    JPcc_nn = r"^JP (Z|NZ|C|NC),u16"
+    match = re.fullmatch(JPcc_nn, ins)
+    if match:
+        condition = match.group(1)
+        return f"jump_conditional({condition})"
+    
     # JRe =
-    # JRcc_e =
+    if ins == "JR i8":
+        return "jump_relative()"
+
+    JRcc_e = r"^JR (Z|NZ|C|NC),i8"
+    match = re.fullmatch(JRcc_e, ins)
+    if match:
+        condition = match.group(1)
+        return f"jump_relative_conditional({condition})"
+
     # CALLnn =
-    # CALLcc_nn =
+    if ins == "CALL u16":
+        return "call()"
+
+    CALLcc_nn = r"^CALL (Z|NZ|C|NC),u16"
+    match = re.fullmatch(CALLcc_nn, ins)
+    if match:
+        condition = match.group(1)
+        return f"call_conditional({condition})"
+
     # RET =
-    # RETcc =
+    if ins == "RET":
+        return "ret()"
+
+    RETcc = r"^RET (Z|NZ|C|NC)"
+    match = re.fullmatch(RETcc, ins)
+    if match:
+        condition = match.group(1)
+        return f"ret_conditional({condition})"
+
     # RETI =
+    if ins == "RETI":
+        return "ret_interrupt()"
+
     # RSTn =
+    RSTcc = r"^RST (00|08|10|18|20|28|30|38)h"
+    match = re.fullmatch(RSTcc, ins)
+    if match:
+        n = match.group(1)
+        n = int(n, 16)
+        return f"restart({n})"
+
     # HALT =
+    if ins == "HALT":
+        return "halt()"
+
     # STOP =
+    if ins == "STOP":
+        return "stop()"
+
     # DI =
+    if ins == "DI":
+        return "disable_interrupts()"
+        
     # EI =
+    if ins == "EI":
+        return "enable_interrupts()"
+
     # NOP =
+    if ins == "NOP":
+        return "nop()"
 
     if ins == "PREFIX CB":
         return "prefix_0xcb(opcode)"
@@ -420,22 +580,59 @@ def translate_instruction_to_function(ins:str):
 
 print(translate_instruction_to_function("LD SP,u16"))
 
+cpp_string = ""
+cpp_string += "#include \"instructions.h\"\n"
+cpp_string += "#include \"cpu.h\"\n"
+cpp_string += "int Instructions::decode_execute(BYTE opcode){\n"
+
+
 opcode_switch = ""
-opcode_switch += "switch(opcode){\n"
+opcode_switch += "\tswitch(opcode){\n"
 #Do stuff here
 
 for opcode in opcodes:
     if(opcode["class"] == "opcode unused"):
         continue
-    opcode_switch += "\tcase " 
+    opcode_switch += "\t\tcase " 
     opcode_switch += opcode["hex"]
     opcode_switch += ":\n" 
     function_name = translate_instruction_to_function(opcode["ins"])
-    opcode_switch += f"\t\treturn {function_name};\n"
+    opcode_switch += f"\t\t\treturn {function_name};\n"
 
-opcode_switch += "}"
+opcode_switch += "\t\tdefault:\n\t\t\treturn 0;\n"
 
-print(opcode_switch)
+opcode_switch += "\t}\n"
+cpp_string += opcode_switch
+
+cpp_string += "}\n\n"
 
 
+
+cpp_string += "int prefix_0xcb(BYTE opcode){\n"
+
+opcode_prefix_switch = ""
+opcode_prefix_switch += "\tswitch(opcode){\n"
+#Do stuff here
+
+for opcode_prefix in opcode_prefixs:
+    if(opcode_prefix["class"] == "opcode_prefix unused"):
+        continue
+    opcode_prefix_switch += "\t\tcase " 
+    opcode_prefix_switch += opcode_prefix["hex"]
+    opcode_prefix_switch += ":\n" 
+    function_name = translate_instruction_to_function(opcode_prefix["ins"])
+    opcode_prefix_switch += f"\t\t\treturn {function_name};\n"
+
+opcode_prefix_switch += "\t\tdefault:\n\t\t\treturn 0;\n"
+
+opcode_prefix_switch += "\t}\n"
+cpp_string += opcode_prefix_switch
+
+cpp_string += "}\n"
+
+print(cpp_string)
+
+output_file = open("../src/gbcore/ins_opcodes.cpp", "w")
+output_file.write(cpp_string)
+output_file.close()
 

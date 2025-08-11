@@ -1,9 +1,17 @@
 #pragma once
 #include "types.h"
+
+//Conditions
+#define Z 0
+#define C 1
+#define NZ 2
+#define NC 3
+
 namespace Instructions {
    //Functions for Decoding Opcodes
     int decode_execute(BYTE opcode);
     
+    int prefix_0xcb(BYTE opcode);
     //Functions for Helping Do Instructions
 
     //x8/lsm
@@ -45,7 +53,7 @@ namespace Instructions {
     int sub_register(int reg);
     int sub_hl();
     int sub_immediate();
-    int sub_with_carry_register();
+    int sub_with_carry_register(int reg);
     int sub_with_carry_hl();
     int sub_with_carry_immediate();
     int compare_register(int reg);
@@ -84,9 +92,9 @@ namespace Instructions {
     int rotate_left_circular_hl();
     int rotate_right_circular_register(int reg);
     int rotate_right_circular_hl();
-    int rotate_left(int reg);
+    int rotate_left_register(int reg);
     int rotate_left_hl();
-    int rotate_right(int reg);
+    int rotate_right_register(int reg);
     int rotate_right_hl();
     int shift_left_register(int reg);
     int shift_left_hl();
@@ -104,20 +112,22 @@ namespace Instructions {
     int set_bit_hl(int bit);
 
     //control/br
-    int jump(WORD address);
+    int jump();
     int jump_hl();
-    int jump_conditional(WORD address, WORD condition);
-    int jump_relative(BYTE e);
-    int jump_relative_conditional(BYTE e, WORD condition);
-    int call(WORD address);
+    int jump_conditional(int condition);
+    int jump_relative();
+    int jump_relative_conditional(int condition);
+    int call();
+    int call_conditional(int condition);
     int ret();
-    int ret_conditional(WORD condition);
+    int ret_conditional(int condition);
     int ret_interrupt();
-    int restart(BYTE n); //What?
+    int restart(WORD n); //What?
 
     //control/misc
     int halt();
     int stop();
+    int disable_interrupts();
     int enable_interrupts();
     int nop();
 }
