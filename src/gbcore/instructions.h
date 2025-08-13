@@ -9,125 +9,125 @@
 
 namespace Instructions {
    //Functions for Decoding Opcodes
-    int decode_execute(BYTE opcode);
+    int decode_execute(BYTE opcode, int step);
     
-    int prefix_0xcb(BYTE opcode);
+    int prefix_0xcb(BYTE opcode, int step);
     //Functions for Helping Do Instructions
 
     //x8/lsm
-    int load_register(int reg, int reg_prime);
-    int load_register_immediate(int reg);
-    int load_register_hl(int reg);
-    int load_from_register_hl(int reg);
-    int load_hl_immediate();
-    int load_accumulator_bc();
-    int load_accumulator_de();
-    int load_from_accumulator_bc();
-    int load_from_accumulator_de();
-    int load_accumulator();
-    int load_from_accumulator();
-    int load_accumulator_c();//This is Offsetted by 0xFF00
-    int load_from_accumulator_c();//This is Offsetted by 0xFF00
-    int load_accumulator_offset(); //This is Offsetted by 0xFF00
-    int load_from_accumulator_offset(); //This is Offsetted by 0xFF00
-    int load_accumulator_hl_decrement();
-    int load_from_accumulator_hl_decrement();
-    int load_accumulator_hl_increment();
-    int load_from_accumulator_hl_increment();
+    int load_register(int reg, int reg_prime, int step);
+    int load_register_immediate(int reg, int step);
+    int load_register_hl(int reg, int step);
+    int load_from_register_hl(int reg, int step);
+    int load_hl_immediate(int step);
+    int load_accumulator_bc(int step);
+    int load_accumulator_de(int step);
+    int load_from_accumulator_bc(int step);
+    int load_from_accumulator_de(int step);
+    int load_accumulator(int step);
+    int load_from_accumulator(int step);
+    int load_accumulator_c(int step);//This is Offsetted by 0xFF00
+    int load_from_accumulator_c(int step);//This is Offsetted by 0xFF00
+    int load_accumulator_offset(int step); //This is Offsetted by 0xFF00
+    int load_from_accumulator_offset(int step); //This is Offsetted by 0xFF00
+    int load_accumulator_hl_decrement(int step);
+    int load_from_accumulator_hl_decrement(int step);
+    int load_accumulator_hl_increment(int step);
+    int load_from_accumulator_hl_increment(int step);
     
     //x16/lsm
-    int load_register_immediate(int reg_16bit);
-    int load_from_stack();
-    int load_stack_hl();
-    int push(int reg_16bit);
-    int pop(int reg_16bit);
-    int load_hl_sp_plus_e(); //Wtf is this used for
+    int load_register_immediate_16bit(int reg_16bit, int step);
+    int load_from_stack(int step);
+    int load_stack_hl(int step);
+    int push(int reg_16bit, int step);
+    int pop(int reg_16bit, int step);
+    int load_hl_sp_plus_e(int step); //Wtf is this used for
 
     //x8/alu 
-    int add_register(int reg);
-    int add_hl();
-    int add_immediate();
-    int add_with_carry_register(int reg);
-    int add_with_carry_hl();
-    int add_with_carry_immediate();
-    int sub_register(int reg);
-    int sub_hl();
-    int sub_immediate();
-    int sub_with_carry_register(int reg);
-    int sub_with_carry_hl();
-    int sub_with_carry_immediate();
-    int compare_register(int reg);
-    int compare_hl();
-    int compare_immediate();
-    int increment_register(int reg);
-    int increment_hl();
-    int decrement_register(int reg);
-    int decrement_hl();
-    int bit_and_register(int reg);
-    int bit_and_hl();
-    int bit_and_immediate();
-    int bit_or_register(int reg);
-    int bit_or_hl();
-    int bit_or_immediate();
-    int bit_xor_register(int reg);
-    int bit_xor_hl();
-    int bit_xor_immediate();
-    int complement_carry();
-    int set_carry();
-    int decimal_adjust_accumulator();
-    int complement_accumulator();
+    int add_register(int reg, int step);
+    int add_hl(int step);
+    int add_immediate(int step);
+    int add_with_carry_register(int reg, int step);
+    int add_with_carry_hl(int step);
+    int add_with_carry_immediate(int step);
+    int sub_register(int reg, int step);
+    int sub_hl(int step);
+    int sub_immediate(int step);
+    int sub_with_carry_register(int reg, int step);
+    int sub_with_carry_hl(int step);
+    int sub_with_carry_immediate(int step);
+    int compare_register(int reg, int step);
+    int compare_hl(int step);
+    int compare_immediate(int step);
+    int increment_register(int reg, int step);
+    int increment_hl(int step);
+    int decrement_register(int reg, int step);
+    int decrement_hl(int step);
+    int bit_and_register(int reg, int step);
+    int bit_and_hl(int step);
+    int bit_and_immediate(int step);
+    int bit_or_register(int reg, int step);
+    int bit_or_hl(int step);
+    int bit_or_immediate(int step);
+    int bit_xor_register(int reg, int step);
+    int bit_xor_hl(int step);
+    int bit_xor_immediate(int step);
+    int complement_carry(int step);
+    int set_carry(int step);
+    int decimal_adjust_accumulator(int step);
+    int complement_accumulator(int step);
 
     //x16/alu
-    int increment_register_16bit(int reg_16bit);
-    int decrement_register_16bit(int reg_16bit);
-    int add_register_hl_16bit(int reg_16bit);
-    int add_stack_16bit();
+    int increment_register_16bit(int reg_16bit, int step);
+    int decrement_register_16bit(int reg_16bit, int step);
+    int add_register_hl_16bit(int reg_16bit, int step);
+    int add_stack_16bit(int step);
 
     //x8/rsb
-    int rotate_left_circular_accumulator();
-    int rotate_right_circular_accumulator();
-    int rotate_left_accumulator();
-    int rotate_right_accumulator();
-    int rotate_left_circular_register(int reg);
-    int rotate_left_circular_hl();
-    int rotate_right_circular_register(int reg);
-    int rotate_right_circular_hl();
-    int rotate_left_register(int reg);
-    int rotate_left_hl();
-    int rotate_right_register(int reg);
-    int rotate_right_hl();
-    int shift_left_register(int reg);
-    int shift_left_hl();
-    int shift_right_register(int reg);
-    int shift_right_hl();
-    int swap_nibbles_register(int reg);
-    int swap_nibbles_hl();
-    int shift_right_logical_register(int reg);
-    int shift_right_logical_hl();
-    int test_bit_register(int reg, int bit);
-    int test_bit_hl(int bit);
-    int reset_bit_register(int reg, int bit);
-    int reset_bit_hl(int bit);
-    int set_bit_register(int reg, int bit);
-    int set_bit_hl(int bit);
+    int rotate_left_circular_accumulator(int step);
+    int rotate_right_circular_accumulator(int step);
+    int rotate_left_accumulator(int step);
+    int rotate_right_accumulator(int step);
+    int rotate_left_circular_register(int reg, int step);
+    int rotate_left_circular_hl(int step);
+    int rotate_right_circular_register(int reg, int step);
+    int rotate_right_circular_hl(int step);
+    int rotate_left_register(int reg, int step);
+    int rotate_left_hl(int step);
+    int rotate_right_register(int reg, int step);
+    int rotate_right_hl(int step);
+    int shift_left_register(int reg, int step);
+    int shift_left_hl(int step);
+    int shift_right_register(int reg, int step);
+    int shift_right_hl(int step);
+    int swap_nibbles_register(int reg, int step);
+    int swap_nibbles_hl(int step);
+    int shift_right_logical_register(int reg, int step);
+    int shift_right_logical_hl(int step);
+    int test_bit_register(int reg, int bit, int step);
+    int test_bit_hl(int bit, int step);
+    int reset_bit_register(int reg, int bit, int step);
+    int reset_bit_hl(int bit, int step);
+    int set_bit_register(int reg, int bit, int step);
+    int set_bit_hl(int bit, int step);
 
     //control/br
-    int jump();
-    int jump_hl();
-    int jump_conditional(int condition);
-    int jump_relative();
-    int jump_relative_conditional(int condition);
-    int call();
-    int call_conditional(int condition);
-    int ret();
-    int ret_conditional(int condition);
-    int ret_interrupt();
-    int restart(WORD n); //What?
+    int jump(int step);
+    int jump_hl(int step);
+    int jump_conditional(int condition, int step);
+    int jump_relative(int step);
+    int jump_relative_conditional(int condition, int step);
+    int call(int step);
+    int call_conditional(int condition, int step);
+    int ret(int step);
+    int ret_conditional(int condition, int step);
+    int ret_interrupt(int step);
+    int restart(WORD n, int step); //What?
 
     //control/misc
-    int halt();
-    int stop();
-    int disable_interrupts();
-    int enable_interrupts();
-    int nop();
+    int halt(int step);
+    int stop(int step);
+    int disable_interrupts(int step);
+    int enable_interrupts(int step);
+    int nop(int step);
 }

@@ -32,13 +32,19 @@ namespace CPU {
         WORD word[4];
     };
 
-    class DMG{
-        public:
-            Registers regs{};
-            WORD pc_sp[2]{};
-            BYTE memory[0x10000];
+    extern Registers regs;
+    extern WORD reg_special[2];
 
-            BYTE get_register(BYTE reg);
-            WORD get_register_pair(BYTE reg);
-    };
+    extern bool fetch_enable; //Set by the Executing Opcode to signify it can start fetching
+    extern BYTE current_opcode;
+
+    void init_dmg();
+
+    BYTE get_register(BYTE reg);
+    WORD get_register_pair(BYTE reg); 
+    
+    BYTE fetch();
+
+
+    void cycle();
 }

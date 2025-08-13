@@ -21,9 +21,10 @@ add_executable(rainboy
     src/gbapp/app.cpp
     src/gbapp/render.cpp
 
-    src/gbcore/clock.cpp
     src/gbcore/cpu.cpp
     src/gbcore/disassembler.cpp
+    src/gbcore/ins_functions.cpp
+    src/gbcore/ins_opcodes.cpp
 )
 
 # Link to the actual SDL3 library.

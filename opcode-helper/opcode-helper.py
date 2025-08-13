@@ -73,196 +73,184 @@ def translate_instruction_to_function(ins:str):
     if match:
         reg1 = match.group(1)
         reg2 = match.group(2)
-        return f"load_register({reg1}, {reg2})"
-    LDr_n = r"^LD ([ABCDEFHL]),u8"
+        return f"load_register({reg1}, {reg2}, step)"    
 
+    LDr_n = r"^LD ([ABCDEFHL]),u8"
     match = re.fullmatch(LDr_n, ins)
     if match:
         reg1 = match.group(1)
-        return f"load_register_immediate({reg1})"
-
+        return f"load_register_immediate({reg1}, step)"
     LDr_HL = r"^LD ([ABCDEFHL]),\(HL\)"
     match = re.fullmatch(LDr_HL, ins)
     if match:
         reg1 = match.group(1)
-        return f"load_register_hl({reg1})"
-
+        return f"load_register_hl({reg1}, step)"
     LD_HL_r = r"^LD \(HL\),([ABCDEFHL])"
     match = re.fullmatch(LD_HL_r, ins)
     if match:
         reg1 = match.group(1)
-        return f"load_from_register_hl({reg1})"
-
+        return f"load_from_register_hl({reg1}, step)"
     # LD_HL_n =
     if ins == "LD (HL),u8":
-        return "load_hl_immediate()"
+        return "load_hl_immediate(step)"
 
     # LDA_BC =
     if ins == "LD A,(BC)":
-        return "load_accumulator_bc()"
+        return "load_accumulator_bc(step)"
 
     # LDA_DE =
     if ins == "LD A,(DE)":
-        return "load_accumulator_de()"
+        return "load_accumulator_de(step)"
 
     # LD_BC_A =
     if ins == "LD (BC),A":
-        return "load_from_accumulator_bc()"
+        return "load_from_accumulator_bc(step)"
 
     # LD_DE_A =
     if ins == "LD (DE),A":
-        return "load_from_accumulator_de()"
+        return "load_from_accumulator_de(step)"
 
     # LDA_nn =
     if ins == "LD A,(u16)":
-        return "load_accumulator()"
+        return "load_accumulator(step)"
 
     # LD_nn_A =
     if ins == "LD (u16),A":
-        return "load_from_accumulator()"
+        return "load_from_accumulator(step)"
 
     # LDHA_C =
     if ins == "LD A,(FF00+C)":
-        return "load_accumulator_c()"
+        return "load_accumulator_c(step)"
 
     # LDH_C_A =
     if ins == "LD (FF00+C),A":
-        return "load_from_accumulator_c()"
+        return "load_from_accumulator_c(step)"
 
     # LDHA_n =
     if ins == "LD A,(FF00+u8)":
-        return "load_accumulator_offset()"
+        return "load_accumulator_offset(step)"
 
     # LDH_n_A =
     if ins == "LD (FF00+u8),A":
-        return "load_from_accumulator_offset()"
+        return "load_from_accumulator_offset(step)"
 
     # LDA_HLminus =
     if ins == "LD A,(HL-)":
-        return "load_accumulator_hl_decrement()"
+        return "load_accumulator_hl_decrement(step)"
 
     # LD_HLminus_A =
     if ins == "LD (HL-),A":
-        return "load_from_accumulator_hl_decrement()"
+        return "load_from_accumulator_hl_decrement(step)"
 
     # LDA_HLplus =
     if ins == "LD A,(HL+)":
-        return "load_accumulator_hl_increment()"
+        return "load_accumulator_hl_increment(step)"
 
     # LD_HLplus_A =
     if ins == "LD (HL+),A":
-        return "load_from_accumulator_hl_increment()"
+        return "load_from_accumulator_hl_increment(step)"
 
     LDrr_nn = r"^LD ([A-Z][A-Z]),u16"
     match = re.fullmatch(LDrr_nn, ins)
     if match:
         reg1 = match.group(1)
-        return f"load_register_immediate({reg1})"
-
+        return f"load_register_immediate_16bit({reg1}, step)"
     # LD_nn_SP =
     if ins == "LD (u16),SP":
-        return "load_from_stack()"
+        return "load_from_stack(step)"
 
     # LDSP_HL =
     if ins == "LD SP,HL":
-        return "load_from_stack()"
+        return "load_from_stack(step)"
 
     PUSHrr = r"^PUSH ([A-Z][A-Z])"
     match = re.fullmatch(PUSHrr, ins)
     if match:
         reg1 = match.group(1)
-        return f"push({reg1})"
-
+        return f"push({reg1}, step)"
     POPrr = r"^POP ([A-Z][A-Z])"
     match = re.fullmatch(POPrr, ins)
     if match:
         reg1 = match.group(1)
-        return f"pop({reg1})"
-
+        return f"pop({reg1}, step)"
     # LDHL_SPpluse =
     if ins == "LD HL,SP+i8":
-        return "load_hl_sp_plus_e()"
+        return "load_hl_sp_plus_e(step)"
 
     ADDr = r"^ADD A,([ABCDEFHL])"
     match = re.fullmatch(ADDr, ins)
     if match:
         reg1 = match.group(1)
-        return f"add_register({reg1})"
-
+        return f"add_register({reg1}, step)"
     # ADD_HL =
     if ins == "ADD A,(HL)":
-        return "add_hl()"
+        return "add_hl(step)"
 
     # ADDn =
     if ins == "ADD A,u8":
-        return "add_immediate()"
+        return "add_immediate(step)"
 
     ADCr = r"^ADC A,([ABCDEFHL])"
     match = re.fullmatch(ADCr, ins)
     if match:
         reg1 = match.group(1)
-        return f"add_with_carry_register({reg1})"
-
+        return f"add_with_carry_register({reg1}, step)"
     # ADC_HL =
     if ins == "ADC A,(HL)":
-        return "add_with_carry_hl()"
+        return "add_with_carry_hl(step)"
 
     # ADCn =
     if ins == "ADC A,u8":
-        return "add_with_carry_immediate()"
+        return "add_with_carry_immediate(step)"
 
     SUBr = r"^SUB A,([ABCDEFHL])"
     match = re.fullmatch(SUBr, ins)
     if match:
         reg1 = match.group(1)
-        return f"sub_register({reg1})"
-
+        return f"sub_register({reg1}, step)"
     # SUB_HL =
     if ins == "SUB A,(HL)":
-        return "sub_hl()"
+        return "sub_hl(step)"
 
     # SUBn =
     if ins == "SUB A,u8":
-        return "sub_immediate()"
+        return "sub_immediate(step)"
 
     SBCr = r"^SBC A,([ABCDEFHL])"
     match = re.fullmatch(SBCr, ins)
     if match:
         reg1 = match.group(1)
-        return f"sub_with_carry_register({reg1})"
-
+        return f"sub_with_carry_register({reg1}, step)"
     # SBC_HL =
     if ins == "SBC A,(HL)":
-        return "sub_with_carry_hl()"
+        return "sub_with_carry_hl(step)"
 
     # SBCn =
     if ins == "SBC A,u8":
-        return "sub_with_carry_immediate()"
+        return "sub_with_carry_immediate(step)"
 
     # CPr =
     CPr = r"^CP A,([ABCDEFHL])"
     match = re.fullmatch(CPr, ins)
     if match:
         reg1 = match.group(1)
-        return f"compare_register({reg1})"
-
+        return f"compare_register({reg1}, step)"
     # CP_HL =
     if ins == "CP A,(HL)":
-        return "compare_hl()"
+        return "compare_hl(step)"
 
     # CPn =
     if ins == "CP A,u8":
-        return "compare_immediate()"
+        return "compare_immediate(step)"
 
     INCr = r"^INC ([ABCDEFHL])"
     match = re.fullmatch(INCr, ins)
     if match:
         reg1 = match.group(1)
-        return f"increment_register({reg1})"
-
+        return f"increment_register({reg1}, step)"
     # INC_HL =
     if ins == "INC (HL)":
-        return "increment_hl()"
+        return "increment_hl(step)"
 
     # DECr =
     # DEC_HL =
@@ -270,178 +258,164 @@ def translate_instruction_to_function(ins:str):
     match = re.fullmatch(DECr, ins)
     if match:
         reg1 = match.group(1)
-        return f"decrement_register({reg1})"
-
+        return f"decrement_register({reg1}, step)"
     # DEC_HL =
     if ins == "DEC (HL)":
-        return "decrement_hl()"
+        return "decrement_hl(step)"
 
     ANDr = r"^AND A,([ABCDEFHL])"
     match = re.fullmatch(ANDr, ins)
     if match:
         reg1 = match.group(1)
-        return f"bit_and_register({reg1})"
-
+        return f"bit_and_register({reg1}, step)"
     # AND_HL =
     if ins == "AND A,(HL)":
-        return "bit_and_hl()"
+        return "bit_and_hl(step)"
 
     # ANDn =
     if ins == "AND A,u8":
-        return "bit_and_immediate()"
+        return "bit_and_immediate(step)"
 
     ORr = r"^OR A,([ABCDEFHL])"
     match = re.fullmatch(ORr, ins)
     if match:
         reg1 = match.group(1)
-        return f"bit_or_register({reg1})"
-
+        return f"bit_or_register({reg1}, step)"
     # OR_HL =
     if ins == "OR A,(HL)":
-        return "bit_or_hl()"
+        return "bit_or_hl(step)"
 
     # ORn =
     if ins == "OR A,u8":
-        return "bit_or_immediate()"
+        return "bit_or_immediate(step)"
 
     XORr = r"^XOR A,([ABCDEFHL])"
     match = re.fullmatch(XORr, ins)
     if match:
         reg1 = match.group(1)
-        return f"bit_xor_register({reg1})"
-
+        return f"bit_xor_register({reg1}, step)"
     # Xxor_HL =
     if ins == "XOR A,(HL)":
-        return "bit_xor_hl()"
+        return "bit_xor_hl(step)"
 
     # Xxorn =
     if ins == "XOR A,u8":
-        return "bit_xor_immediate()"
+        return "bit_xor_immediate(step)"
 
     # CCF =
     if ins == "CCF":
-        return "complement_carry()"
+        return "complement_carry(step)"
 
     # SCF =
     if ins == "SCF":
-        return "set_carry()"
+        return "set_carry(step)"
 
     # DAA =
     if ins == "DAA":
-        return "decimal_adjust_accumulator()"
+        return "decimal_adjust_accumulator(step)"
 
     # CPL =
     if ins == "CPL":
-        return "complement_accumulator()"
+        return "complement_accumulator(step)"
 
     INCrr = r"^INC ([A-Z][A-Z])"
     match = re.fullmatch(INCrr, ins)
     if match:
         reg1 = match.group(1)
-        return f"increment_register_16bit({reg1})"
-
+        return f"increment_register_16bit({reg1}, step)"
     DECrr = r"^DEC ([A-Z][A-Z])"
     match = re.fullmatch(DECrr, ins)
     if match:
         reg1 = match.group(1)
-        return f"decrement_register_16bit({reg1})"
-
+        return f"decrement_register_16bit({reg1}, step)"
     # ADDHL_rr =
     ADDHL_rr = r"^ADD HL,([A-Z][A-Z])"
     match = re.fullmatch(ADDHL_rr, ins)
     if match:
         reg1 = match.group(1)
-        return f"add_register_hl_16bit({reg1})"
-
+        return f"add_register_hl_16bit({reg1}, step)"
     # ADDSP_e =
     if ins == "ADD SP,i8":
-        return "add_stack_16bit()"
+        return "add_stack_16bit(step)"
 
     # RLCA =
     if ins == "RLCA":
-        return "rotate_left_circular_accumulator()"
+        return "rotate_left_circular_accumulator(step)"
 
     # RRCA =
     if ins == "RRCA":
-        return "rotate_right_circular_accumulator()"
+        return "rotate_right_circular_accumulator(step)"
 
     # RLA =
     if ins == "RLA":
-        return "rotate_left_accumulator()"
+        return "rotate_left_accumulator(step)"
 
     # RRA =
     if ins == "RRA":
-        return "rotate_right_accumulator()"
+        return "rotate_right_accumulator(step)"
 
     RLCr = r"^RLC ([ABCDEFHL])"
     match = re.fullmatch(RLCr, ins)
     if match:
         reg1 = match.group(1)
-        return f"rotate_left_circular_register({reg1})"
-
+        return f"rotate_left_circular_register({reg1}, step)"
     # RLC_HL =
     if ins == "RLC (HL)":
-        return  "rotate_left_circular_hl()"
+        return  "rotate_left_circular_hl(step)"
 
     RRCr = r"^RRC ([ABCDEFHL])"
     match = re.fullmatch(RRCr, ins)
     if match:
         reg1 = match.group(1)
-        return f"rotate_right_circular_register({reg1})"
-
+        return f"rotate_right_circular_register({reg1}, step)"
     # RRC_HL =
     if ins == "RRC (HL)":
-        return  "rotate_right_circular_hl()"
+        return  "rotate_right_circular_hl(step)"
 
     RLr = r"^RL ([ABCDEFHL])"
     match = re.fullmatch(RLr, ins)
     if match:
         reg1 = match.group(1)
-        return f"rotate_left_register({reg1})"
-
+        return f"rotate_left_register({reg1}, step)"
     # RL_HL =
     if ins == "RL (HL)":
-        return  "rotate_left_hl()"
+        return  "rotate_left_hl(step)"
 
     RRr = r"^RR ([ABCDEFHL])"
     match = re.fullmatch(RRr, ins)
     if match:
         reg1 = match.group(1)
-        return f"rotate_right_register({reg1})"
-
+        return f"rotate_right_register({reg1}, step)"
     # RR_HL =
     if ins == "RR (HL)":
-        return  "rotate_right_hl()"
+        return  "rotate_right_hl(step)"
 
     SLAr = r"^SLA ([ABCDEFHL])"
     match = re.fullmatch(SLAr, ins)
     if match:
         reg1 = match.group(1)
-        return f"shift_left_register({reg1})"
-
+        return f"shift_left_register({reg1}, step)"
     # SLA_HL =
     if ins == "SLA (HL)":
-        return  "shift_left_hl()"
+        return  "shift_left_hl(step)"
 
     SRAr = r"^SRA ([ABCDEFHL])"
     match = re.fullmatch(SRAr, ins)
     if match:
         reg1 = match.group(1)
-        return f"shift_right_register({reg1})"
-
+        return f"shift_right_register({reg1}, step)"
     # SRA_HL =
     if ins == "SRA (HL)":
-        return  "shift_right_hl()"
+        return  "shift_right_hl(step)"
 
     SWAPr = r"^SWAP ([ABCDEFHL])"
     match = re.fullmatch(SWAPr, ins)
     if match:
         reg1 = match.group(1)
-        return f"swap_nibbles_register({reg1})"
-
+        return f"swap_nibbles_register({reg1}, step)"
     # SWAP_HL =
     if ins == "SWAP (HL)":
-        return  "swap_nibbles_hl()"
+        return  "swap_nibbles_hl(step)"
 
     # SRLr =
     # SRL_HL =
@@ -449,101 +423,90 @@ def translate_instruction_to_function(ins:str):
     match = re.fullmatch(SRLr, ins)
     if match:
         reg1 = match.group(1)
-        return f"shift_right_logical_register({reg1})"
-
+        return f"shift_right_logical_register({reg1}, step)"
     # SRL_HL =
     if ins == "SRL (HL)":
-        return  "shift_right_logical_hl()"
+        return  "shift_right_logical_hl(step)"
 
     BITbr = r"^BIT ([0-7]),([ABCDEFHL])"
     match = re.fullmatch(BITbr, ins)
     if match:
         reg1 = match.group(2)
         bit = match.group(1)
-        return f"test_bit_register({bit},{reg1})"
-
+        return f"test_bit_register({bit},{reg1}, step)"
     # BITb_HL =
     BITb_HL = r"^BIT ([0-7]),\(HL\)"
     match = re.fullmatch(BITb_HL, ins)
     if match:
         bit = match.group(1)
-        return f"test_bit_hl({bit})"
-
+        return f"test_bit_hl({bit}, step)"
     RESbr = r"^RES ([0-7]),([ABCDEFHL])"
     match = re.fullmatch(RESbr, ins)
     if match:
         reg1 = match.group(2)
         bit = match.group(1)
-        return f"reset_bit_register({bit},{reg1})"
-
+        return f"reset_bit_register({bit},{reg1}, step)"
     # RESb_HL =
     RESb_HL = r"^RES ([0-7]),\(HL\)"
     match = re.fullmatch(RESb_HL, ins)
     if match:
         bit = match.group(1)
-        return f"reset_bit_hl({bit})"
-
+        return f"reset_bit_hl({bit}, step)"
     SETbr = r"^SET ([0-7]),([ABCDEFHL])"
     match = re.fullmatch(SETbr, ins)
     if match:
         reg1 = match.group(2)
         bit = match.group(1)
-        return f"set_bit_register({bit},{reg1})"
-
+        return f"set_bit_register({bit},{reg1}, step)"
     # SETb_HL =
     SETb_HL = r"^SET ([0-7]),\(HL\)"
     match = re.fullmatch(SETb_HL, ins)
     if match:
         bit = match.group(1)
-        return f"set_bit_hl({bit})"
-
+        return f"set_bit_hl({bit}, step)"
     # JPnn =
     if ins == "JP u16":
-        return "jump()"
+        return "jump(step)"
 
     # JPHL =
     if ins == "JP HL":
-        return "jump_hl()"
+        return "jump_hl(step)"
 
     JPcc_nn = r"^JP (Z|NZ|C|NC),u16"
     match = re.fullmatch(JPcc_nn, ins)
     if match:
         condition = match.group(1)
-        return f"jump_conditional({condition})"
-    
+        return f"jump_conditional({condition}, step)"    
     # JRe =
     if ins == "JR i8":
-        return "jump_relative()"
+        return "jump_relative(step)"
 
     JRcc_e = r"^JR (Z|NZ|C|NC),i8"
     match = re.fullmatch(JRcc_e, ins)
     if match:
         condition = match.group(1)
-        return f"jump_relative_conditional({condition})"
-
+        return f"jump_relative_conditional({condition}, step)"
     # CALLnn =
     if ins == "CALL u16":
-        return "call()"
+        return "call(step)"
 
     CALLcc_nn = r"^CALL (Z|NZ|C|NC),u16"
     match = re.fullmatch(CALLcc_nn, ins)
     if match:
         condition = match.group(1)
-        return f"call_conditional({condition})"
-
+        return f"call_conditional({condition}, step)"
     # RET =
     if ins == "RET":
-        return "ret()"
+        return "ret(step)"
 
     RETcc = r"^RET (Z|NZ|C|NC)"
     match = re.fullmatch(RETcc, ins)
     if match:
         condition = match.group(1)
-        return f"ret_conditional({condition})"
-
+        return f"ret_conditional({condition}, step)"
     # RETI =
     if ins == "RETI":
-        return "ret_interrupt()"
+        return "ret_interrupt(step)"
 
     # RSTn =
     RSTcc = r"^RST (00|08|10|18|20|28|30|38)h"
@@ -551,31 +514,29 @@ def translate_instruction_to_function(ins:str):
     if match:
         n = match.group(1)
         n = int(n, 16)
-        return f"restart({n})"
-
+        return f"restart({n}, step)"
     # HALT =
     if ins == "HALT":
-        return "halt()"
+        return "halt(step)"
 
     # STOP =
     if ins == "STOP":
-        return "stop()"
+        return "stop(step)"
 
     # DI =
     if ins == "DI":
-        return "disable_interrupts()"
+        return "disable_interrupts(step)"
         
     # EI =
     if ins == "EI":
-        return "enable_interrupts()"
+        return "enable_interrupts(step)"
 
     # NOP =
     if ins == "NOP":
-        return "nop()"
+        return "nop(step)"
 
     if ins == "PREFIX CB":
-        return "prefix_0xcb(opcode)"
-
+        return "prefix_0xcb(opcode, step)"
     return ""
 
 print(translate_instruction_to_function("LD SP,u16"))
@@ -583,7 +544,7 @@ print(translate_instruction_to_function("LD SP,u16"))
 cpp_string = ""
 cpp_string += "#include \"instructions.h\"\n"
 cpp_string += "#include \"cpu.h\"\n"
-cpp_string += "int Instructions::decode_execute(BYTE opcode){\n"
+cpp_string += "int Instructions::decode_execute(BYTE opcode, int step){\n"
 
 
 opcode_switch = ""
@@ -608,7 +569,7 @@ cpp_string += "}\n\n"
 
 
 
-cpp_string += "int prefix_0xcb(BYTE opcode){\n"
+cpp_string += "int Instructions::prefix_0xcb(BYTE opcode, int step){\n"
 
 opcode_prefix_switch = ""
 opcode_prefix_switch += "\tswitch(opcode){\n"
