@@ -25,6 +25,14 @@ add_executable(rainboy
     src/gbcore/disassembler.cpp
     src/gbcore/ins_functions.cpp
     src/gbcore/ins_opcodes.cpp
+
+    src/gbcore/components/interrupt_controller.cpp
+    src/gbcore/components/bootrom.cpp
+    src/gbcore/components/cartridge.cpp
+    src/gbcore/components/oam.cpp
+    src/gbcore/components/io.cpp
+    src/gbcore/components/internal_mem.cpp
+    src/gbcore/components/unuseable.cpp
 )
 
 # Link to the actual SDL3 library.

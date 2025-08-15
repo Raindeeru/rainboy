@@ -71,24 +71,24 @@ def translate_instruction_to_function(ins:str):
     match = re.fullmatch(LDr_r_prime, ins)
 
     if match:
-        reg1 = match.group(1)
-        reg2 = match.group(2)
+        reg1 = "REG_" + match.group(1)
+        reg2 = "REG_" + match.group(2)
         return f"load_register({reg1}, {reg2}, step)"    
 
     LDr_n = r"^LD ([ABCDEFHL]),u8"
     match = re.fullmatch(LDr_n, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"load_register_immediate({reg1}, step)"
     LDr_HL = r"^LD ([ABCDEFHL]),\(HL\)"
     match = re.fullmatch(LDr_HL, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"load_register_hl({reg1}, step)"
     LD_HL_r = r"^LD \(HL\),([ABCDEFHL])"
     match = re.fullmatch(LD_HL_r, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"load_from_register_hl({reg1}, step)"
     # LD_HL_n =
     if ins == "LD (HL),u8":
@@ -153,7 +153,7 @@ def translate_instruction_to_function(ins:str):
     LDrr_nn = r"^LD ([A-Z][A-Z]),u16"
     match = re.fullmatch(LDrr_nn, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"load_register_immediate_16bit({reg1}, step)"
     # LD_nn_SP =
     if ins == "LD (u16),SP":
@@ -166,12 +166,12 @@ def translate_instruction_to_function(ins:str):
     PUSHrr = r"^PUSH ([A-Z][A-Z])"
     match = re.fullmatch(PUSHrr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"push({reg1}, step)"
     POPrr = r"^POP ([A-Z][A-Z])"
     match = re.fullmatch(POPrr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"pop({reg1}, step)"
     # LDHL_SPpluse =
     if ins == "LD HL,SP+i8":
@@ -180,7 +180,7 @@ def translate_instruction_to_function(ins:str):
     ADDr = r"^ADD A,([ABCDEFHL])"
     match = re.fullmatch(ADDr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"add_register({reg1}, step)"
     # ADD_HL =
     if ins == "ADD A,(HL)":
@@ -193,7 +193,7 @@ def translate_instruction_to_function(ins:str):
     ADCr = r"^ADC A,([ABCDEFHL])"
     match = re.fullmatch(ADCr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"add_with_carry_register({reg1}, step)"
     # ADC_HL =
     if ins == "ADC A,(HL)":
@@ -206,7 +206,7 @@ def translate_instruction_to_function(ins:str):
     SUBr = r"^SUB A,([ABCDEFHL])"
     match = re.fullmatch(SUBr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"sub_register({reg1}, step)"
     # SUB_HL =
     if ins == "SUB A,(HL)":
@@ -219,7 +219,7 @@ def translate_instruction_to_function(ins:str):
     SBCr = r"^SBC A,([ABCDEFHL])"
     match = re.fullmatch(SBCr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"sub_with_carry_register({reg1}, step)"
     # SBC_HL =
     if ins == "SBC A,(HL)":
@@ -233,7 +233,7 @@ def translate_instruction_to_function(ins:str):
     CPr = r"^CP A,([ABCDEFHL])"
     match = re.fullmatch(CPr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"compare_register({reg1}, step)"
     # CP_HL =
     if ins == "CP A,(HL)":
@@ -246,7 +246,7 @@ def translate_instruction_to_function(ins:str):
     INCr = r"^INC ([ABCDEFHL])"
     match = re.fullmatch(INCr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"increment_register({reg1}, step)"
     # INC_HL =
     if ins == "INC (HL)":
@@ -257,7 +257,7 @@ def translate_instruction_to_function(ins:str):
     DECr = r"^DEC ([ABCDEFHL])"
     match = re.fullmatch(DECr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"decrement_register({reg1}, step)"
     # DEC_HL =
     if ins == "DEC (HL)":
@@ -266,7 +266,7 @@ def translate_instruction_to_function(ins:str):
     ANDr = r"^AND A,([ABCDEFHL])"
     match = re.fullmatch(ANDr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"bit_and_register({reg1}, step)"
     # AND_HL =
     if ins == "AND A,(HL)":
@@ -279,7 +279,7 @@ def translate_instruction_to_function(ins:str):
     ORr = r"^OR A,([ABCDEFHL])"
     match = re.fullmatch(ORr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"bit_or_register({reg1}, step)"
     # OR_HL =
     if ins == "OR A,(HL)":
@@ -292,7 +292,7 @@ def translate_instruction_to_function(ins:str):
     XORr = r"^XOR A,([ABCDEFHL])"
     match = re.fullmatch(XORr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"bit_xor_register({reg1}, step)"
     # Xxor_HL =
     if ins == "XOR A,(HL)":
@@ -321,18 +321,18 @@ def translate_instruction_to_function(ins:str):
     INCrr = r"^INC ([A-Z][A-Z])"
     match = re.fullmatch(INCrr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"increment_register_16bit({reg1}, step)"
     DECrr = r"^DEC ([A-Z][A-Z])"
     match = re.fullmatch(DECrr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"decrement_register_16bit({reg1}, step)"
     # ADDHL_rr =
     ADDHL_rr = r"^ADD HL,([A-Z][A-Z])"
     match = re.fullmatch(ADDHL_rr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"add_register_hl_16bit({reg1}, step)"
     # ADDSP_e =
     if ins == "ADD SP,i8":
@@ -357,7 +357,7 @@ def translate_instruction_to_function(ins:str):
     RLCr = r"^RLC ([ABCDEFHL])"
     match = re.fullmatch(RLCr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"rotate_left_circular_register({reg1}, step)"
     # RLC_HL =
     if ins == "RLC (HL)":
@@ -366,7 +366,7 @@ def translate_instruction_to_function(ins:str):
     RRCr = r"^RRC ([ABCDEFHL])"
     match = re.fullmatch(RRCr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"rotate_right_circular_register({reg1}, step)"
     # RRC_HL =
     if ins == "RRC (HL)":
@@ -375,7 +375,7 @@ def translate_instruction_to_function(ins:str):
     RLr = r"^RL ([ABCDEFHL])"
     match = re.fullmatch(RLr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"rotate_left_register({reg1}, step)"
     # RL_HL =
     if ins == "RL (HL)":
@@ -384,7 +384,7 @@ def translate_instruction_to_function(ins:str):
     RRr = r"^RR ([ABCDEFHL])"
     match = re.fullmatch(RRr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"rotate_right_register({reg1}, step)"
     # RR_HL =
     if ins == "RR (HL)":
@@ -393,7 +393,7 @@ def translate_instruction_to_function(ins:str):
     SLAr = r"^SLA ([ABCDEFHL])"
     match = re.fullmatch(SLAr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"shift_left_register({reg1}, step)"
     # SLA_HL =
     if ins == "SLA (HL)":
@@ -402,7 +402,7 @@ def translate_instruction_to_function(ins:str):
     SRAr = r"^SRA ([ABCDEFHL])"
     match = re.fullmatch(SRAr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"shift_right_register({reg1}, step)"
     # SRA_HL =
     if ins == "SRA (HL)":
@@ -411,7 +411,7 @@ def translate_instruction_to_function(ins:str):
     SWAPr = r"^SWAP ([ABCDEFHL])"
     match = re.fullmatch(SWAPr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"swap_nibbles_register({reg1}, step)"
     # SWAP_HL =
     if ins == "SWAP (HL)":
@@ -422,7 +422,7 @@ def translate_instruction_to_function(ins:str):
     SRLr = r"^SRL ([ABCDEFHL])"
     match = re.fullmatch(SRLr, ins)
     if match:
-        reg1 = match.group(1)
+        reg1 = "REG_" + match.group(1)
         return f"shift_right_logical_register({reg1}, step)"
     # SRL_HL =
     if ins == "SRL (HL)":
@@ -431,7 +431,7 @@ def translate_instruction_to_function(ins:str):
     BITbr = r"^BIT ([0-7]),([ABCDEFHL])"
     match = re.fullmatch(BITbr, ins)
     if match:
-        reg1 = match.group(2)
+        reg1 = "REG_" + match.group(2)
         bit = match.group(1)
         return f"test_bit_register({bit},{reg1}, step)"
     # BITb_HL =
@@ -443,7 +443,7 @@ def translate_instruction_to_function(ins:str):
     RESbr = r"^RES ([0-7]),([ABCDEFHL])"
     match = re.fullmatch(RESbr, ins)
     if match:
-        reg1 = match.group(2)
+        reg1 = "REG_" + match.group(2)
         bit = match.group(1)
         return f"reset_bit_register({bit},{reg1}, step)"
     # RESb_HL =
@@ -455,7 +455,7 @@ def translate_instruction_to_function(ins:str):
     SETbr = r"^SET ([0-7]),([ABCDEFHL])"
     match = re.fullmatch(SETbr, ins)
     if match:
-        reg1 = match.group(2)
+        reg1 = "REG_" + match.group(2)
         bit = match.group(1)
         return f"set_bit_register({bit},{reg1}, step)"
     # SETb_HL =
@@ -475,7 +475,7 @@ def translate_instruction_to_function(ins:str):
     JPcc_nn = r"^JP (Z|NZ|C|NC),u16"
     match = re.fullmatch(JPcc_nn, ins)
     if match:
-        condition = match.group(1)
+        condition =  "CONDITION_" + match.group(1)
         return f"jump_conditional({condition}, step)"    
     # JRe =
     if ins == "JR i8":
@@ -484,7 +484,7 @@ def translate_instruction_to_function(ins:str):
     JRcc_e = r"^JR (Z|NZ|C|NC),i8"
     match = re.fullmatch(JRcc_e, ins)
     if match:
-        condition = match.group(1)
+        condition =  "CONDITION_" + match.group(1)
         return f"jump_relative_conditional({condition}, step)"
     # CALLnn =
     if ins == "CALL u16":
@@ -493,7 +493,7 @@ def translate_instruction_to_function(ins:str):
     CALLcc_nn = r"^CALL (Z|NZ|C|NC),u16"
     match = re.fullmatch(CALLcc_nn, ins)
     if match:
-        condition = match.group(1)
+        condition =  "CONDITION_" + match.group(1)
         return f"call_conditional({condition}, step)"
     # RET =
     if ins == "RET":
@@ -502,7 +502,7 @@ def translate_instruction_to_function(ins:str):
     RETcc = r"^RET (Z|NZ|C|NC)"
     match = re.fullmatch(RETcc, ins)
     if match:
-        condition = match.group(1)
+        condition =  "CONDITION_" + match.group(1)
         return f"ret_conditional({condition}, step)"
     # RETI =
     if ins == "RETI":

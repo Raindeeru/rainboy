@@ -57,6 +57,9 @@ int Instructions::load_accumulator_hl_increment(int step){
 int Instructions::load_from_accumulator_hl_increment(int step){
     return 0;
 }
+int Instructions::load_hl_sp_plus_e(int step){
+    return 0;
+} //Wtf is this used for
 
 //x16/lsm
 int Instructions::load_register_immediate_16bit(int reg_16bit, int step){

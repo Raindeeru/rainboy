@@ -331,9 +331,17 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\dev\rainboy\src\main.cpp" />
     <ClCompile Include="C:\dev\rainboy\src\gbapp\app.cpp" />
     <ClCompile Include="C:\dev\rainboy\src\gbapp\render.cpp" />
-    <ClCompile Include="C:\dev\rainboy\src\gbcore\clock.cpp" />
     <ClCompile Include="C:\dev\rainboy\src\gbcore\cpu.cpp" />
     <ClCompile Include="C:\dev\rainboy\src\gbcore\disassembler.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\ins_functions.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\ins_opcodes.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\components\interrupt_controller.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\components\bootrom.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\components\cartridge.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\components\oam.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\components\io.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\components\internal_mem.cpp" />
+    <ClCompile Include="C:\dev\rainboy\src\gbcore\components\unuseable.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

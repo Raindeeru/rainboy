@@ -7,21 +7,25 @@
 #define FLAG_C 4
 
 //8 Bit Register Macros
-#define A 0
-#define F 1
-#define B 2
-#define C 3
-#define D 4
-#define E 5
-#define H 6
-#define L 7
+#define REG_A 0
+#define REG_F 1
+#define REG_B 2
+#define REG_C 3
+#define REG_D 4
+#define REG_E 5
+#define REG_H 6
+#define REG_L 7
 
 //16 Bit Register Macros
-#define AF 0
-#define BC 1
-#define DE 2
-#define HL 3
+#define REG_AF 0
+#define REG_BC 1
+#define REG_DE 2
+#define REG_HL 3
 
+#define CONDITION_C 0
+#define CONDITION_NC 1
+#define CONDITION_Z 2
+#define CONDITION_NZ 3
 #define PC 0
 #define SP 1
 

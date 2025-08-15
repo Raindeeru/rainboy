@@ -6,15 +6,6 @@ namespace MMU {
 
     //remove this stuff this is just for reference honestly
     //I will be using raw arrays and poi
-    extern std::vector<BYTE> vram;
-    extern std::vector<BYTE> wram;
-    extern std::vector<BYTE> echo_ram;
-    extern std::vector<BYTE> oam;
-    extern std::vector<BYTE> hram;
-    extern std::vector<BYTE> external_ram;
-    extern std::vector<BYTE> external_rom;
-    extern std::vector<BYTE> boot_rom;
-
 
     void handle_mbc(WORD address);
     BYTE read_cart_rom(WORD address);
