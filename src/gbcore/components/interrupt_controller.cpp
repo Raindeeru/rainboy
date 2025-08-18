@@ -2,9 +2,11 @@
 #include "../types.h"
 #include "../mmu.h"
 
-void MMU::write_interrupt_enable(WORD address, BYTE data){
+BYTE interrupt_enable = 0;
 
+void MMU::write_interrupt_enable(WORD address, BYTE data){
+    interrupt_enable = data;
 }
 BYTE MMU::read_interrupt_enable(WORD address){
-    return 0;
+    return interrupt_enable;
 } //Pwede ba to? Who knows, someone pero like di ko rinesearch

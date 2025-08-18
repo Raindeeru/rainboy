@@ -1,5 +1,5 @@
 #include "types.h"
-#include <vector>
+
 namespace MMU {
     void write_memory(BYTE data, WORD address); 
     BYTE read_memory(WORD address);
@@ -24,7 +24,7 @@ namespace MMU {
     void write_io(WORD address, BYTE data);
     BYTE read_io(WORD address); //Idk how this work
     void write_interrupt_enable(WORD address, BYTE data);
-    BYTE read_interrupt_enable(WORD address); //Pwede ba to? Who knows, someone pero like di ko rinesearch
+    BYTE read_interrupt_enable(WORD address); //Pwede ba to? Who knows, someone knows, pero like di ko rinesearch
 
     void handle_not_useable_writes(WORD address, BYTE data); //I think kailangan ko mag implement OAM corruption
     BYTE handle_not_useable_reads(WORD address);

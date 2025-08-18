@@ -1,20 +1,20 @@
 #pragma once
 #include "types.h"
 
-#define FLAG_Z 7
-#define FLAG_N 6
-#define FLAG_H 5
-#define FLAG_C 4
+#define FLAG_Z 128
+#define FLAG_N 64
+#define FLAG_H 32
+#define FLAG_C 16
 
 //8 Bit Register Macros
-#define REG_A 0
-#define REG_F 1
-#define REG_B 2
-#define REG_C 3
-#define REG_D 4
-#define REG_E 5
-#define REG_H 6
-#define REG_L 7
+#define REG_A 1
+#define REG_F 0
+#define REG_B 3
+#define REG_C 2
+#define REG_D 5
+#define REG_E 4
+#define REG_H 7
+#define REG_L 6
 
 //16 Bit Register Macros
 #define REG_AF 0
@@ -38,17 +38,19 @@ namespace CPU {
 
     extern Registers regs;
     extern WORD reg_special[2];
+    extern BYTE ime;
+    extern BYTE ir;
 
-    extern bool fetch_enable; //Set by the Executing Opcode to signify it can start fetching
-    extern BYTE current_opcode;
+    extern int current_step;
+
+    extern int system_clock;
 
     void init_dmg();
 
     BYTE get_register(BYTE reg);
     WORD get_register_pair(BYTE reg); 
     
-    BYTE fetch();
-
+    void fetch();
 
     void cycle();
 }

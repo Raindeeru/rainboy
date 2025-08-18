@@ -1,4 +1,18 @@
+#include "cpu.h"
 #include "common.h"
+#include "instructions.h"
+
+CPU::Registers regs{0};
+WORD CPU::reg_special[2]{0};
+BYTE CPU::ime{0};
+BYTE CPU::ir{0};
+
+int CPU::system_clock{0};
+
+
+void CPU::fetch(){
+    CPU::ir = MMU::read_memory(CPU::reg_special[PC]);
+}
 
 void MMU::write_memory(BYTE data, WORD address){
     if (address >= 0x0000 && address <= 0x7FFF){        //Memory Banking Handling
@@ -47,4 +61,8 @@ BYTE MMU::read_memory(WORD address){
         return MMU::read_interrupt_enable(address);
     }
 
+}
+
+void CPU::cycle(){
+    current_step = Instructions::decode_execute(ir, current_step);
 }
