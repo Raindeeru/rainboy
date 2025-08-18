@@ -1249,18 +1249,97 @@ int Instructions::complement_accumulator(int step){
 
 //x16/alu
 int Instructions::increment_register_16bit(int reg_16bit, int step){
+    switch (step) {
+        case 0:
+            return 1;
+        case 1:
+            CPU::regs.word[reg_16bit] ++;
 
-    CPU::reg_special[PC] ++;
-    CPU::fetch();
+            CPU::reg_special[PC] ++;
+            CPU::fetch();
+            return 0;
+        default:
+            return 0;
+    }
+
     return 0;
 }
 int Instructions::decrement_register_16bit(int reg_16bit, int step){
+    switch (step) {
+        case 0:
+            return 1;
+        case 1:
+            CPU::regs.word[reg_16bit] --;
+
+            CPU::reg_special[PC] ++;
+            CPU::fetch();
+            return 0;
+        default:
+            return 0;
+    }
     return 0;
 }
 int Instructions::add_register_hl_16bit(int reg_16bit, int step){
+    switch (step) {
+        case 0:
+            return 1;
+        case 1:{
+            int hl = CPU::regs.word[REG_HL];
+            int rr = CPU::regs.word[reg_16bit];
+            int result = hl + rr;
+
+            bool flag_c = (rr + hl) > 0xFFFF;
+            bool flag_h = ((rr & 0xFFF) + (hl & 0xFFF)) > 0xFFF;
+            bool flag_z = (CPU::regs.byte[REG_F] & FLAG_Z) ? 1:0;
+            bool flag_n = 0;
+
+            CPU::regs.word[REG_HL] = (WORD)result;
+            CPU::regs.byte[REG_F] = (flag_c ? FLAG_C:0)|
+                                    (flag_z ? FLAG_Z:0)|
+                                    (flag_h ? FLAG_H:0)|
+                                    (flag_n ? FLAG_N:0);
+
+            CPU::reg_special[PC] ++;
+            CPU::fetch();
+            return 0;
+        }
+        default:
+            return 0;
+    }
     return 0;
 }
 int Instructions::add_stack_16bit(int step){
+    switch (step) {
+        case 0:
+            CPU::reg_special[PC] ++;
+            return 1;
+        case 1:{
+            int sp = CPU::reg_special[SP];
+            int e = (SIGNED_BYTE)MMU::read_memory(CPU::reg_special[PC]);
+
+            int result = sp + e;
+
+            bool flag_c = ((sp & 0xFF) + (e & 0xFF)) > 0xFF; 
+            bool flag_h = ((sp & 0xF) + (e & 0xF)) > 0xF;
+            bool flag_z = 0; 
+            bool flag_n = 0;
+
+            CPU::reg_special[SP] = (WORD)result;
+            CPU::regs.byte[REG_F] = (flag_c ? FLAG_C:0)|
+                                    (flag_z ? FLAG_Z:0)|
+                                    (flag_h ? FLAG_H:0)|
+                                    (flag_n ? FLAG_N:0);
+            return 2;
+        }
+        case 2:
+            return 3;
+        case 3:
+            CPU::reg_special[PC] ++;
+            CPU::fetch();
+            return 0;
+        default:
+            return 0;
+    }
     return 0;
 }
 
